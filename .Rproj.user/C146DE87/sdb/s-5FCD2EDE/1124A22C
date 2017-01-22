@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(shiny)\nlibrary(dplyr)\nlibrary(httr)\nlibrary(plotly)\nlibrary(ggthemes)\n\nsource(\"updateHtmlList.R\")\n\nresult <<- \"\"\n\nshinyServer(\n  function(input, output) {\n    movieList <- reactive({\n      input$movie_title\n    })\n\n    output$ex_out <- renderUI({\n      result <- '<ul>'\n      imdbList <- updateLiElement(movieList())\n      \n      for(i in imdbList) {\n        result <- paste(result, i)\n      }\n      result <- paste(result, '</ul>')\n      \n      tags$div(\n        HTML(result)\n      )\n    })\n    \n    output$\"plot\" <- renderPlotly({\n      if (!is.null(movieList())) {\n        plotData <- data %>%\n          filter(Film %in% movieList())\n      } else {\n        return()\n      }\n      \n      xvar <- input$xvar\n      yvar <- input$yvar\n      xvar_name <- names(axis_vars)[axis_vars == xvar]\n      yvar_name <- names(axis_vars)[axis_vars == yvar]\n      \n      if (class(data[,xvar]) == \"factor\" || class(data[,yvar]) == \"factor\") {\n        ggplot(plotData, aes_string(x= xvar, y= yvar)) +\n          geom_bar(stat = \"identity\", fill= \"#3366FF\") +\n          labs(x= xvar_name,y= yvar_name) +\n          theme_hc() +\n          scale_colour_hc() +\n          theme(axis.text.x = element_text(angle = 90))\n      } else {\n        ggplot(plotData, aes_string(x= xvar, y= yvar)) +\n          geom_point() +\n          theme_hc()\n      }\n    })\n  }\n)",
+    "created" : 1484986751380.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2490092202",
+    "id" : "1124A22C",
+    "lastKnownWriteTime" : 1485112972,
+    "last_content_update" : 1485112972353,
+    "path" : "~/RProjects/MovieDeathsApp/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

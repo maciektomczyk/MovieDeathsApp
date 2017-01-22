@@ -1,0 +1,9 @@
+{
+    "path" : "~/RProjects/MovieDeathsApp",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}
